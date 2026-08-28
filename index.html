@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#f7e3ea" />
+  <meta name="description" content="A little surprise." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>A Little Surprise</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="stage" id="stage" aria-live="polite">
+
+    <!-- Ambient particle layer -->
+    <canvas id="particles" class="particles" aria-hidden="true"></canvas>
+
+    <!-- Vignette overlay for premium depth -->
+    <div class="vignette" aria-hidden="true"></div>
+
+    <!-- ============== ACCESS SCENE ============== -->
+    <section
+      class="scene scene-auth is-active"
+      data-scene="auth"
+      aria-label="Private access"
+    >
+      <div class="auth-stack">
+        <p class="eyebrow eyebrow--gold">A Private Surprise</p>
+        <h1 class="auth-headline">
+          <span class="headline-line">A little secret</span>
+          <span class="headline-line headline-line--italic">before the surprise.</span>
+        </h1>
+        <p class="auth-subline">Enter your four-digit code to continue.</p>
+
+        <form class="pin-form" id="pinForm" novalidate>
+          <label class="sr-only" for="pinInput">Four-digit access code</label>
+          <input
+            id="pinInput"
+            class="pin-input"
+            name="pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            autocomplete="off"
+            aria-describedby="pinStatus"
+            aria-label="Four-digit access code"
+            placeholder="••••"
+            required
+          />
+          <button class="pin-button" id="pinButton" type="submit">
+            <span>Continue</span>
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </span>
+          </button>
+          <p class="pin-status" id="pinStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="intro-ornament intro-ornament--top" aria-hidden="true"></div>
+      <div class="intro-ornament intro-ornament--bottom" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============== INTRO SCENE ============== -->
+    <section
+      class="scene scene-intro"
+      data-scene="intro"
+      aria-label="Opening"
+    >
+      <div class="intro-stack">
+        <p class="eyebrow eyebrow--gold" data-reveal="1">Raksha Bandhan</p>
+
+        <h1 class="headline" data-reveal="2">
+          <span class="headline-line">A Little</span>
+          <span class="headline-line headline-line--italic">Surprise</span>
+        </h1>
+
+        <p class="subline" data-reveal="3">
+          Something special is waiting for you&hellip;
+        </p>
+
+        <div class="button-wrap" data-reveal="4">
+          <button class="open-button" id="openButton" type="button">
+            <span class="open-button__inner">
+              <span class="open-button__text">Open Your Surprise</span>
+              <span class="open-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </span>
+            </span>
+            <span class="open-button__glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="intro-ornament intro-ornament--top" aria-hidden="true"></div>
+      <div class="intro-ornament intro-ornament--bottom" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============== PHOTO SCENE TEMPLATE ============== -->
+    <template id="photo-scene-template">
+      <section class="scene scene-photo" data-scene="photo" aria-label="A memory">
+        <div class="photo-stack">
+          <p class="photo-eyebrow eyebrow--gold"></p>
+
+          <div class="photo-frame" data-frame>
+            <span class="photo-frame__corner photo-frame__corner--tl" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--tr" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--bl" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--br" aria-hidden="true"></span>
+            <div class="photo-frame__inner">
+              <img class="photo-image" alt="" draggable="false" />
+            </div>
+          </div>
+
+          <p class="photo-caption"></p>
+        </div>
+
+        <div class="progress-meta">
+          <span class="progress-counter"></span>
+        </div>
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-bar__fill"></div>
+        </div>
+
+        <button class="nav-zone nav-zone--prev" type="button" aria-label="Previous memory"></button>
+        <button class="nav-zone nav-zone--next" type="button" aria-label="Next memory"></button>
+      </section>
+    </template>
+
+    <!-- ============== FINAL SCENE ============== -->
+    <section class="scene scene-final" data-scene="final" aria-label="Final message">
+      <div class="final-stack">
+        <div class="final-photo-wrap" data-frame>
+          <div class="photo-frame photo-frame--final">
+            <span class="photo-frame__corner photo-frame__corner--tl" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--tr" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--bl" aria-hidden="true"></span>
+            <span class="photo-frame__corner photo-frame__corner--br" aria-hidden="true"></span>
+            <div class="photo-frame__inner">
+              <img class="photo-image final-photo" alt="" draggable="false" />
+            </div>
+            <span class="final-halo" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="final-message" id="finalMessage">
+          <p class="eyebrow eyebrow--gold">Raksha Bandhan</p>
+          <h2 class="final-headline">
+            <span class="headline-line">Happy</span>
+            <span class="headline-line headline-line--italic">Raksha Bandhan</span>
+          </h2>
+          <p class="final-body">
+            This little corner of the internet is yours. A small thank&#8209;you
+            for every smile, every fight, every late&#8209;night call, and every
+            quiet moment that meant more than you know. With love, always.
+          </p>
+          <button class="replay-button" id="replayButton" type="button">
+            <span class="replay-button__inner">
+              <span class="replay-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 3-6.7" />
+                  <path d="M3 4v5h5" />
+                </svg>
+              </span>
+              <span>Replay</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== CLOSED SCENE (post-expiry) ============== -->
+    <section class="scene scene-closed" data-scene="closed" aria-label="Closed">
+      <div class="closed-stack">
+        <p class="eyebrow eyebrow--gold">Raksha Bandhan</p>
+        <h2 class="closed-headline">
+          <span class="headline-line">This surprise</span>
+          <span class="headline-line headline-line--italic">has ended.</span>
+        </h2>
+        <p class="closed-sub">Come back next year.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <noscript>
+    <div style="padding:2rem;font-family:serif;text-align:center;color:#5a2a3e;">
+      This experience needs JavaScript to run.
+    </div>
+  </noscript>
+
+  <script src="js/gallery.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
