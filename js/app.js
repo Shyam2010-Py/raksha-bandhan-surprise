@@ -1,7 +1,4 @@
-/* =========================================================
-   app.js
-   Access gate, application state, scene flow, user interaction.
-   ========================================================= */
+
 
 (function () {
   "use strict";
@@ -9,12 +6,12 @@
   const { reduced, wait, transitionScenes, playOpenBurst, PetalSystem } = window.Animations;
   const { PHOTOS, updateProgressBar, resetImageTransform, setPhotoSources } = window.Gallery;
 
-  /* ---------- Production configuration ---------- */
+  
   const SUPABASE_URL = "https://lvfngtbbkyngthudzvup.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Nhfrs1w8qUqxx1pbMaMbuw_EkccDiRx";
   const ACCESS_FUNCTION = "raksha-photo-access";
 
-  /* ---------- State ---------- */
+  
   const state = {
     phase: "auth", // auth | intro | photos | final | closed
     index: -1,
@@ -24,7 +21,7 @@
     hasAccess: false,
   };
 
-  /* ---------- DOM ---------- */
+  
   const stage = document.getElementById("stage");
   const authScene = stage.querySelector('[data-scene="auth"]');
   const introScene = stage.querySelector('[data-scene="intro"]');
@@ -39,7 +36,7 @@
   const particlesCanvas = document.getElementById("particles");
   const finalPhotoImg = finalScene.querySelector(".final-photo");
 
-  /* ---------- Boot ---------- */
+  
   function boot() {
     PetalSystem.init(particlesCanvas);
     state.scenesRef = window.Gallery.mountPhotoScenes(stage);
@@ -59,7 +56,7 @@
     requestAnimationFrame(() => pinInput.focus());
   }
 
-  /* ---------- Private access ---------- */
+  
   async function onPinSubmit(event) {
     event.preventDefault();
     if (state.isAnimating) return;
@@ -157,7 +154,7 @@
     });
   }
 
-  /* ---------- Open: cinematic sequence ---------- */
+  
   let opened = false;
   let autoAdvanceTimer = null;
 
@@ -204,7 +201,7 @@
     await showFirstPhoto();
   }
 
-  /* ---------- Photo Progression ---------- */
+  
   async function showFirstPhoto() {
     state.phase = "photos";
     state.index = 0;
@@ -284,7 +281,7 @@
     return base + extra;
   }
 
-  /* ---------- Final ---------- */
+  
   async function showFinal() {
     if (state.phase === "final") return;
     state.phase = "final";
@@ -309,7 +306,7 @@
     state.isAnimating = false;
   }
 
-  /* ---------- Replay ---------- */
+  
   async function onReplay() {
     if (state.isAnimating || !state.hasAccess) return;
     state.isAnimating = true;
@@ -334,7 +331,7 @@
     state.isAnimating = false;
   }
 
-  /* ---------- Per-scene navigation ---------- */
+  
   function bindSceneNavigation(scene) {
     if (!scene || scene.dataset.navBound === "1") return;
     scene.dataset.navBound = "1";
@@ -345,7 +342,7 @@
     if (nextBtn) nextBtn.addEventListener("click", nextPhoto);
   }
 
-  /* ---------- Keyboard nav ---------- */
+  
   function onKey(e) {
     if (state.phase !== "photos") return;
     if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
