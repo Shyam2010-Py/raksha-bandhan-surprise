@@ -1,38 +1,24 @@
-/* =========================================================
-   animations.js
-   Reusable animation functions, transitions, and particle behavior.
-   ========================================================= */
+
 
 (function (global) {
   "use strict";
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Utilities ---------- */
+  
   function delay(ms) {
     return new Promise((res) => setTimeout(res, ms));
   }
 
-  /**
-   * Promise-based wait that respects prefers-reduced-motion by
-   * collapsing to near-zero durations.
-   */
+  
   function wait(ms) {
     if (reduced) return Promise.resolve();
     return delay(ms);
   }
 
-  /* ---------- Scene Transition Engine ----------
-     We don't remove scenes from the DOM; we toggle classes for
-     smooth, controlled transitions between intro / photo / final. */
+  
 
-  /**
-   * Transition from current active scene to next scene.
-   * Steps:
-   *   1. Mark current as leaving (fade + slight scale + blur).
-   *   2. Wait the leave-duration.
-   *   3. Activate the next scene (which animates in via CSS).
-   */
+  
   async function transitionScenes(currentEl, nextEl, options) {
     const opt = options || {};
     const leaveDelay = opt.leaveDelay ?? 50;
@@ -56,11 +42,8 @@
     }
   }
 
-  /* ---------- Cinematic Glow Burst ---------- */
-  /**
-   * Brief radial burst that lives over the open button. Pure CSS —
-   * we just inject a transient element, then remove it.
-   */
+  
+  
   function playOpenBurst(buttonEl) {
     if (!buttonEl || reduced) return;
 
@@ -83,7 +66,7 @@
 
     buttonEl.appendChild(burst);
 
-    // Force layout
+
     void burst.offsetWidth;
 
     requestAnimationFrame(() => {
@@ -100,9 +83,7 @@
     }, 1300);
   }
 
-  /* ---------- Particle System ----------
-     Soft floating petals on a canvas. Restrained: small count,
-     slow drift, very low opacity. No bursts, no fireworks. */
+  
 
   const PetalSystem = (function () {
     let canvas = null;
@@ -152,7 +133,7 @@
       ctx.globalAlpha = p.opacity;
 
       if (p.shape === "petal") {
-        // soft ellipse (leaf-petal)
+
         ctx.beginPath();
         ctx.ellipse(0, 0, p.size * 0.7, p.size * 0.4, 0, 0, Math.PI * 2);
         ctx.fill();
@@ -181,7 +162,7 @@
         p.x += p.speedX * dt + Math.sin((t / 1000) + p.driftPhase) * p.driftAmp * 0.04;
         p.rot += p.rotSpeed * (dt / 16.67);
 
-        // Soft wrap
+
         if (p.y > h + 20) {
           p.y = -20;
           p.x = Math.random() * w;
@@ -232,9 +213,9 @@
     }
 
     function setIntensity(multiplier) {
-      // multiplier between 0 (invisible) and 1 (default)
-      // We can't easily clear, so we softly fade by tweaking alpha later
-      // via opacity on the canvas. Simple & effective.
+
+
+
       if (!canvas) return;
       canvas.style.opacity = String(Math.max(0, Math.min(1, multiplier)));
     }
@@ -242,7 +223,7 @@
     return { init, pause, resume, setIntensity };
   })();
 
-  /* ---------- Public API ---------- */
+  
   global.Animations = {
     reduced,
     wait,
